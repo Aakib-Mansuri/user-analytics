@@ -4,7 +4,7 @@
 
   const API_URL =
     document.currentScript?.getAttribute('data-api') ||
-    'http://localhost:5000';
+    'https://user-analytics-31fx.onrender.com';
 
   function getSessionId() {
     try {
