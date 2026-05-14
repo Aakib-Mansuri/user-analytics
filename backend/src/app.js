@@ -8,18 +8,7 @@ const statsRoute    = require('./routes/stats.route');
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '')
-  .split(',').map(o => o.trim()).filter(Boolean);
-
-app.use(cors({
-  origin: (origin, cb) => {
-    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-      cb(null, true);
-    } else {
-      cb(new Error('Not allowed by CORS'));
-    }
-  },
-}));
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/events',   eventsRoute);
