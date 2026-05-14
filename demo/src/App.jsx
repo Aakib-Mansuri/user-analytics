@@ -11,7 +11,7 @@ export default function App() {
         <NavLink to="/"        end className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
         <NavLink to="/about"       className={({ isActive }) => isActive ? 'active' : ''}>About</NavLink>
         <NavLink to="/products"    className={({ isActive }) => isActive ? 'active' : ''}>Products</NavLink>
-        <a href="http://localhost:5173" target="_blank" rel="noreferrer" className="dashboard-link">Dashboard ↗</a>
+        <a href="https://user-analytics-nine.vercel.app" target="_blank" rel="noreferrer" className="dashboard-link">Dashboard ↗</a>
       </nav>
 
       <Routes>
