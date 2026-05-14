@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Move-Item \"d:\\\\General Practice\\\\User Analytics\\\\ARCHITECTURE.md\" \"d:\\\\General Practice\\\\User Analytics\\\\plans\\\\\" && Move-Item \"d:\\\\General Practice\\\\User Analytics\\\\PLAN_TRACKING_SCRIPT.md\" \"d:\\\\General Practice\\\\User Analytics\\\\plans\\\\\")",
+      "Bash(Move-Item \"d:\\\\General Practice\\\\User Analytics\\\\PLAN_BACKEND.md\" \"d:\\\\General Practice\\\\User Analytics\\\\plans\\\\\" && Move-Item \"d:\\\\General Practice\\\\User Analytics\\\\PLAN_FRONTEND.md\" \"d:\\\\General Practice\\\\User Analytics\\\\plans\\\\\")",
+      "Bash(Move-Item \"d:\\\\General Practice\\\\User Analytics\\\\PLAN_DEMO_PAGE.md\" \"d:\\\\General Practice\\\\User Analytics\\\\plans\\\\\" && Move-Item \"d:\\\\General Practice\\\\User Analytics\\\\PLAN_DEPLOYMENT.md\" \"d:\\\\General Practice\\\\User Analytics\\\\plans\\\\\")",
+      "PowerShell(Get-ChildItem -Recurse \"d:\\\\General Practice\\\\User Analytics\\\\backend\" | Where-Object { !$_.PSIsContainer } | Select-Object FullName)",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\tracker\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\demo\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\frontend\\\\src\\\\api\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\frontend\\\\src\\\\pages\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\frontend\\\\src\\\\components\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\frontend\\\\public\\\\demo\")",
+      "PowerShell(Get-Process -Name node -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force)",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\frontend\\\\src\\\\demo\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\frontend\\\\src\\\\hooks\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\demo\\\\src\\\\pages\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"d:\\\\General Practice\\\\User Analytics\\\\demo\\\\src\\\\hooks\")"
+    ]
+  }
+}
