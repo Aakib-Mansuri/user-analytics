@@ -32,7 +32,7 @@ export default function App() {
         ))}
 
         <a
-          href="http://localhost:5174"
+          href="https://user-analytics-hq8r.vercel.app"
           target="_blank"
           rel="noreferrer"
           className="ml-2 px-4 py-2 rounded text-sm font-medium border border-red-400 text-red-400 hover:bg-red-500 hover:text-white transition-colors"

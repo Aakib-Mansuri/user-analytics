@@ -10,9 +10,9 @@ Built as part of the CausalFunnel Full Stack Engineer assignment.
 
 | | URL |
 |---|---|
-| **Dashboard** | https://_____________.vercel.app |
-| **Demo Store** | https://_____________.vercel.app |
-| **Backend API** | https://_____________.onrender.com |
+| **Dashboard** | https://user-analytics-nine.vercel.app |
+| **Demo Store** | https://user-analytics-hq8r.vercel.app |
+| **Backend API** | https://user-analytics-31fx.onrender.com |
 
 > The backend runs on Render's free tier and may take ~30 seconds to wake up on the first request.
 

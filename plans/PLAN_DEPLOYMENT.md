@@ -111,6 +111,6 @@ Commit and push — both Vercel projects redeploy automatically.
 
 | What | URL |
 |------|-----|
-| Dashboard | https://_____________.vercel.app |
-| Demo Site | https://_____________.vercel.app |
-| Backend API | https://_____________.onrender.com |
+| Dashboard | https://user-analytics-nine.vercel.app |
+| Demo Site | https://user-analytics-hq8r.vercel.app |
+| Backend API | https://user-analytics-31fx.onrender.com |
