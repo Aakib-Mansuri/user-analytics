@@ -1,20 +1,29 @@
 # Frontend (Dashboard)
 
 ## Overview
-React SPA dashboard with two views — Sessions and Heatmap — that visualise data collected by the tracking script.
+React SPA analytics dashboard that visualises data collected by the tracking script. Three views: Overview, Sessions, and Heatmap.
+
+## Live URL
+```
+https://user-analytics-nine.vercel.app
+```
+
+---
 
 ## Tech
 - React 19 + Vite
 - React Router v7
 - Tailwind CSS v3
-- Axios
+- Recharts (charts)
+- Axios (API calls)
+
+---
 
 ## Folder Structure
 ```
 frontend/
 ├── public/
-│   ├── tracker.js          # Tracking script (served at /tracker.js)
-│   └── demo/               # Demo pages (served at /demo/)
+│   └── tracker.js          # Tracking script (served at /tracker.js)
 ├── src/
 │   ├── main.jsx            # React entry point
 │   ├── App.jsx             # Router + Navbar
@@ -22,35 +31,51 @@ frontend/
 │   ├── api/
 │   │   └── index.js        # All axios API calls
 │   ├── pages/
-│   │   ├── Sessions.jsx    # /sessions route
-│   │   └── Heatmap.jsx     # /heatmap route
+│   │   ├── Overview.jsx    # /overview — stats + charts
+│   │   ├── Sessions.jsx    # /sessions — session list + journey
+│   │   └── Heatmap.jsx     # /heatmap — click dot canvas
 │   └── components/
 │       ├── SessionTable.jsx    # Clickable sessions table
 │       ├── EventList.jsx       # Ordered event journey panel
 │       └── HeatmapCanvas.jsx   # Canvas with click dot rendering
+├── vercel.json             # SPA rewrite rules
 ├── .env.example
 └── package.json
 ```
 
+---
+
 ## Routes
 | Route | Page |
 |-------|------|
-| `/` | Redirects to `/sessions` |
+| `/` | Redirects to `/overview` |
+| `/overview` | Stats summary + charts |
 | `/sessions` | Sessions list + user journey |
 | `/heatmap` | Heatmap view |
 
-## Sessions View
-- Table of all sessions showing session ID, event count, first seen, last seen
-- Click any row to expand the full ordered user journey below it
-- Journey shows: event type, page URL, coordinates (for clicks), timestamp
+---
 
-## Heatmap View
-- Dropdown populated with page URLs that have real click data (from `/api/heatmap/pages`)
-- Type or select a URL → click **Load Heatmap**
-- Clicks rendered as radial gradient dots on an HTML5 canvas (1280×720)
-- Overlapping dots appear darker, creating a natural density effect
+## Overview Page
+- 4 stat cards: Total Sessions, Total Events, Total Clicks, Total Page Views
+- **Area chart** — events per day over the last 7 days (page views vs clicks)
+- **Donut chart** — event type breakdown (page views vs clicks)
+- **Bar chart** — top 6 pages by visits and clicks
+
+## Sessions Page
+- Table of all sessions: session ID (truncated), event count, first seen, last seen
+- Click any row to expand the full ordered user journey below it
+- Journey shows: event type badge, page URL, coordinates (for clicks), timestamp
+
+## Heatmap Page
+- Dropdown auto-populated with page URLs that have real click data
+- First URL is auto-selected and loaded on page open
+- Clicks rendered as radial gradient dots on an HTML5 Canvas (1280×720)
+- Overlapping dots appear darker — natural density effect without a library
+
+---
 
 ## Environment Variables
 ```
 VITE_API_BASE_URL=http://localhost:5000
 ```
+In production set to: `https://user-analytics-31fx.onrender.com`

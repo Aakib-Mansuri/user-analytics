@@ -14,7 +14,7 @@ Built as part of the CausalFunnel Full Stack Engineer assignment.
 | **Demo Store** | https://user-analytics-hq8r.vercel.app |
 | **Backend API** | https://user-analytics-31fx.onrender.com |
 
-> The backend runs on Render's free tier and may take ~30 seconds to wake up on the first request.
+> The backend runs on Render's free tier and may take ~30–50 seconds to wake up on the first request.
 
 ---
 
@@ -23,7 +23,7 @@ Built as part of the CausalFunnel Full Stack Engineer assignment.
 | Layer | Technology |
 |---|---|
 | Frontend (Dashboard) | React 19, Vite, Tailwind CSS, Recharts |
-| Frontend (Demo) | React 19, Vite |
+| Frontend (Demo) | React 19, Vite, React Router |
 | Backend | Node.js, Express |
 | Database | MongoDB Atlas (Mongoose ODM) |
 | Tracking Script | Vanilla JavaScript (zero dependencies) |
@@ -77,6 +77,7 @@ user-analytics/
 | GET | `/api/stats` | Overview counts |
 | GET | `/api/stats/timeline` | Events per day (last 7 days) |
 | GET | `/api/stats/top-pages` | Top pages by visits and clicks |
+| GET | `/health` | Health check |
 
 ---
 
@@ -88,7 +89,7 @@ user-analytics/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/<username>/user-analytics.git
+git clone https://github.com/Aakib-Mansuri/user-analytics.git
 cd user-analytics
 ```
 
@@ -104,7 +105,6 @@ cd user-analytics
 ```
 MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/analytics?appName=Cluster0
 PORT=5000
-CORS_ORIGIN=http://localhost:5173,http://localhost:5174
 ```
 
 `frontend/.env`:
@@ -152,8 +152,11 @@ To support SPA navigation without requiring framework-specific code, the tracker
 **Canvas-based heatmap (no library)**
 The heatmap uses a plain HTML5 Canvas with radial gradient dots rather than a dedicated library like heatmap.js. This keeps the bundle small. The trade-off is it doesn't support zoom or overlay on a screenshot — it's coordinate-only.
 
+**Open CORS policy**
+CORS is open to all origins (`*`) to keep the tracker embeddable on any site without configuration. A production version would restrict this to known domains.
+
 **Render free tier cold starts**
-The backend is hosted on Render's free tier which spins down after 15 minutes of inactivity. The first request after sleep takes ~30 seconds. This is acceptable for a demo but would need an upgrade for production.
+The backend is hosted on Render's free tier which spins down after 15 minutes of inactivity. The first request after sleep takes ~30–50 seconds. This is acceptable for a demo but would need an upgrade for production.
 
 **Fixed canvas size (1280×720)**
 The heatmap canvas is fixed at 1280×720 to match a typical desktop viewport. Clicks recorded on different screen sizes will be slightly offset. A production version would record viewport dimensions per event and normalise coordinates.

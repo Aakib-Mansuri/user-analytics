@@ -1,23 +1,37 @@
-# Demo Pages
+# Demo Store
 
 ## Overview
-A standalone React SPA ("ShopDemo") — completely independent from the dashboard.
-Demonstrates the tracker script working on a real multi-page React application.
+A standalone React SPA ("ShopDemo") — completely independent from the dashboard. Demonstrates the tracker script working on a real multi-page React application.
 
-## Location
+## Live URL
 ```
-demo/                        ← standalone Vite React project (port 5174)
+https://user-analytics-hq8r.vercel.app
+```
+
+---
+
+## Tech
+- React 19 + Vite
+- React Router v7
+- Vanilla CSS (no Tailwind)
+
+---
+
+## Folder Structure
+```
+demo/
 ├── public/
-│   └── tracker.js           ← tracker script injected via <script> tag
+│   └── tracker.js           # Copy of tracker script
 ├── src/
 │   ├── main.jsx
 │   ├── App.jsx              # Router + nav layout
-│   ├── style.css            # Original CSS styling
+│   ├── style.css            # Demo store CSS
 │   └── pages/
 │       ├── Home.jsx         # /
 │       ├── About.jsx        # /about
 │       └── Products.jsx     # /products
-├── index.html               # tracker.js injected here
+├── index.html               # tracker.js injected here via <script> tag
+├── vercel.json              # SPA rewrite rules
 ├── .env.example
 └── package.json
 ```
@@ -26,10 +40,10 @@ demo/                        ← standalone Vite React project (port 5174)
 
 ## How Tracking Works
 
-`tracker.js` is injected in `demo/index.html` as a `<script>` tag — exactly as the assignment requires:
+`tracker.js` is injected in `demo/index.html` as a `<script>` tag:
 
 ```html
-<script src="/tracker.js" data-api="http://localhost:5000"></script>
+<script src="/tracker.js" data-api="https://user-analytics-31fx.onrender.com"></script>
 ```
 
 - Fires `page_view` on initial load
@@ -43,9 +57,9 @@ demo/                        ← standalone Vite React project (port 5174)
 
 | URL | Page |
 |-----|------|
-| `http://localhost:5174/` | Home |
-| `http://localhost:5174/about` | About |
-| `http://localhost:5174/products` | Products (best for heatmap data) |
+| `/` | Home |
+| `/about` | About |
+| `/products` | Products (best for heatmap data) |
 
 ---
 
@@ -53,35 +67,21 @@ demo/                        ← standalone Vite React project (port 5174)
 
 ### Home (`/`)
 - Hero: "Welcome to ShopDemo" with Browse Products + Learn More buttons
-- 4 feature cards: ⚡ Fast Delivery, 🔒 Secure Payments, ↩️ Easy Returns, 🎁 Loyalty Rewards
+- 4 feature cards: Fast Delivery, Secure Payments, Easy Returns, Loyalty Rewards
 - Popular Right Now buttons: Shop Electronics, Shop Clothing, View All Categories
 
 ### About (`/about`)
 - Hero: "About Us"
-- Our Story text + stat box (50K+ customers, 1200+ products, 30 day returns, 4.9★)
-- 3 values cards: 🌱 Sustainability, 🤝 Community, 💡 Innovation
+- Our Story section + stat box (50K+ customers, 1200+ products, 30-day returns, 4.9★)
+- 3 values cards: Sustainability, Community, Innovation
 
 ### Products (`/products`)
 - Hero: "Our Products"
-- Electronics grid: 🎧 Wireless Headphones, ⌚ Smart Watch, 📷 Mirrorless Camera, 💻 Ultrabook Laptop
-- Clothing grid: 👟 Running Shoes, 🧢 Classic Cap, 🧥 Winter Jacket, 👜 Leather Bag
+- Electronics grid: Wireless Headphones, Smart Watch, Mirrorless Camera, Ultrabook Laptop
+- Clothing grid: Running Shoes, Classic Cap, Winter Jacket, Leather Bag
 - Best page for heatmap data — many spread-out clickable elements
 
 ---
 
 ## Environment Variables
-```
-VITE_API_BASE_URL=http://localhost:5000   ← not used by tracker.js directly
-```
-
-The tracker reads the API URL from the `data-api` attribute in `index.html`, not from env vars.
-
----
-
-## Run Standalone
-```bash
-cd demo
-npm install
-npm run dev
-# → http://localhost:5174
-```
+No environment variables needed. The tracker reads the API URL directly from the `data-api` attribute in `index.html`.

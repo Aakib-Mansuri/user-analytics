@@ -9,7 +9,7 @@ frontend/public/tracker.js   ← served at /tracker.js by dashboard (Vercel)
 demo/public/tracker.js       ← copy served at /tracker.js by demo (Vercel)
 ```
 
-Both are identical files. The one in `frontend/public/` is the source of truth — sync to `demo/public/` when updated.
+Both files are identical. `frontend/public/tracker.js` is the source of truth — sync to `demo/public/tracker.js` when updated.
 
 ---
 
@@ -17,15 +17,15 @@ Both are identical files. The one in `frontend/public/` is the source of truth �
 
 Add to any HTML page:
 ```html
+<!-- Production -->
+<script src="https://user-analytics-nine.vercel.app/tracker.js"
+        data-api="https://user-analytics-31fx.onrender.com"></script>
+
 <!-- Local development -->
 <script src="http://localhost:5173/tracker.js" data-api="http://localhost:5000"></script>
-
-<!-- Production -->
-<script src="https://your-dashboard.vercel.app/tracker.js"
-        data-api="https://your-backend.onrender.com"></script>
 ```
 
-The `data-api` attribute points to the backend URL. If omitted, defaults to `http://localhost:5000`.
+The `data-api` attribute points to the backend URL. If omitted, defaults to the production Render URL.
 
 ---
 
@@ -41,11 +41,14 @@ The `data-api` attribute points to the backend URL. If omitted, defaults to `htt
 ---
 
 ## SPA Support
-The tracker patches `history.pushState` so it works on React, Vue, Angular, and any other SPA that uses the History API — no extra configuration needed:
+The tracker patches `history.pushState` so it works with React, Vue, Angular, and any SPA that uses the History API — no extra configuration needed:
 
 ```js
-// tracker.js patches this internally
-history.pushState = function() { ... sendPageView(); }
+var _pushState = history.pushState;
+history.pushState = function() {
+  _pushState.apply(history, arguments);
+  sendPageView();
+};
 window.addEventListener('popstate', sendPageView);
 ```
 
@@ -58,7 +61,7 @@ window.addEventListener('popstate', sendPageView);
 {
   session_id : "uuid-v4-string",
   event_type : "page_view",
-  page_url   : "http://localhost:5174/products",
+  page_url   : "https://user-analytics-hq8r.vercel.app/products",
   timestamp  : "2024-01-10T10:00:00.000Z"
 }
 
@@ -66,7 +69,7 @@ window.addEventListener('popstate', sendPageView);
 {
   session_id : "uuid-v4-string",
   event_type : "click",
-  page_url   : "http://localhost:5174/products",
+  page_url   : "https://user-analytics-hq8r.vercel.app/products",
   timestamp  : "2024-01-10T10:00:05.000Z",
   x          : 450,
   y          : 320
@@ -78,4 +81,13 @@ window.addEventListener('popstate', sendPageView);
 ## Session ID
 - Stored in `localStorage` under key `ua_session_id`
 - Persists across page navigations and SPA route changes
-- Falls back to in-memory variable if `localStorage` is blocked
+- Falls back to an in-memory variable if `localStorage` is blocked (e.g. incognito with strict settings)
+
+---
+
+## Guard Against Double Load
+```js
+if (window.__ua_loaded) return;
+window.__ua_loaded = true;
+```
+Safe to include the script tag multiple times — it only initialises once per page load.

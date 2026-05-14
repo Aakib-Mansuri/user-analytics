@@ -5,7 +5,6 @@ Complete guide to running the project locally after cloning.
 ---
 
 ## Prerequisites
-Make sure you have these installed:
 - **Node.js** v18 or higher — https://nodejs.org
 - **npm** v9 or higher (comes with Node.js)
 - A **MongoDB Atlas** account (free) — https://mongodb.com/atlas
@@ -14,7 +13,7 @@ Make sure you have these installed:
 
 ## Step 1 — Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/user-analytics.git
+git clone https://github.com/Aakib-Mansuri/user-analytics.git
 cd user-analytics
 ```
 
@@ -28,7 +27,7 @@ cd user-analytics
    - Save the username and password — you'll need them in Step 3
 4. Under **Security → Network Access** → Add IP Address → **Allow Access from Anywhere** (`0.0.0.0/0`)
 5. Under **Deployment → Database** → click **Connect** → **Drivers**
-6. Copy your connection string — it looks like:
+6. Copy your connection string:
    ```
    mongodb+srv://<username>:<db_password>@cluster0.xxxxx.mongodb.net/?appName=Cluster0
    ```
@@ -47,7 +46,6 @@ Open `backend/.env` and fill in your values:
 ```
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/analytics?appName=Cluster0
 PORT=5000
-CORS_ORIGIN=http://localhost:5173
 ```
 
 > Important: Add `/analytics` before the `?` in the connection string — this sets the database name.
@@ -63,6 +61,19 @@ cp frontend/.env.example frontend/.env
 VITE_API_BASE_URL=http://localhost:5000
 ```
 
+### Demo
+Create `demo/.env`:
+```bash
+cp demo/.env.example demo/.env
+```
+
+`demo/.env` should contain:
+```
+VITE_API_BASE_URL=http://localhost:5000
+```
+
+> Note: The demo's tracker.js reads the API URL from the `data-api` attribute in `index.html`, not from env vars. The env file is only used if you extend the demo with direct API calls.
+
 ---
 
 ## Step 4 — Install Dependencies
@@ -72,13 +83,13 @@ Run once from the **root** of the project:
 npm run install:all
 ```
 
-This installs dependencies for backend, frontend, and root (concurrently) in one shot.
+This installs dependencies for backend, frontend, and demo in one shot.
 
 If this fails on Windows, run them separately:
 ```bash
 cd backend && npm install
 cd ../frontend && npm install
-cd .. && npm install
+cd ../demo && npm install
 ```
 
 ---
@@ -126,21 +137,21 @@ Run from the **root** of the project:
 npm run dev
 ```
 
-This starts both servers simultaneously with color-coded output:
+This starts all three services simultaneously with color-coded output:
 
 ```
-[BACKEND] Connected to MongoDB
-[BACKEND] Server running on port 5000
-[FRONTEND] VITE ready in 362ms
-[FRONTEND] ➜ Local: http://localhost:5173/
+[BACKEND]   Connected to MongoDB
+[BACKEND]   Server running on port 5000
+[DASHBOARD] VITE ready in 362ms
+[DASHBOARD] ➜ Local: http://localhost:5173/
+[DEMO]      VITE ready in 280ms
+[DEMO]      ➜ Local: http://localhost:5174/
 ```
 
 | Service | URL |
 |---------|-----|
-| Dashboard (React) | http://localhost:5173 |
-| Demo Home | http://localhost:5174 |
-| Demo About | http://localhost:5174/about |
-| Demo Products | http://localhost:5174/products |
+| Dashboard | http://localhost:5173 |
+| Demo Store | http://localhost:5174 |
 | Backend API | http://localhost:5000 |
 | Health Check | http://localhost:5000/health |
 
@@ -149,13 +160,13 @@ This starts both servers simultaneously with color-coded output:
 ## Step 8 — Verify It Works
 
 1. Open **http://localhost:5000/health** — should return `{"status":"ok"}`
-2. Open **http://localhost:5173** — dashboard loads with Sessions view
-3. If you ran the seed, you'll see 5 sessions already listed
-4. Open **http://localhost:5173/demo** — click around the demo store
-5. Navigate between Home / About / Products — no page reloads, events fire on every route change
-6. Refresh the dashboard — your new session appears
-7. Click a session row → user journey expands below
-8. Go to **Heatmap** → select a demo page URL → click **Load Heatmap** → dots appear
+2. Open **http://localhost:5173** — dashboard loads, redirects to Overview
+3. If you ran the seed, stats and charts are already populated
+4. Open **http://localhost:5174** — demo store loads
+5. Click around all 3 pages (Home, About, Products)
+6. Return to the dashboard — your session appears in Sessions view
+7. Click the session row → user journey expands
+8. Go to **Heatmap** → a page URL is auto-selected → dots appear on the canvas
 
 ---
 
@@ -165,37 +176,27 @@ This starts both servers simultaneously with color-coded output:
 
 Port 5000 is still occupied by a previous run. Kill all Node processes:
 ```bash
-# Windows
-taskkill /IM node.exe /F
+# Windows (PowerShell)
+Get-Process -Name node | Stop-Process -Force
 
 # Mac/Linux
 killall node
 ```
 Then run `npm run dev` again.
 
-**`npm run dev` fails with "MongoDB connection failed"**
+**MongoDB connection failed**
 - Double-check `MONGODB_URI` in `backend/.env`
-- Make sure you replaced `<db_password>` with your actual password
-- If password contains special characters (e.g. `@`, `#`), URL-encode them (e.g. `@` → `%40`)
-- Check MongoDB Atlas → Network Access → confirm `0.0.0.0/0` is whitelisted
+- Make sure you replaced `<password>` with your actual password
+- If password contains special characters (`@`, `#`, `!`), URL-encode them (e.g. `@` → `%40`)
+- In MongoDB Atlas → Network Access → confirm `0.0.0.0/0` is active
 
-**Frontend opens on port 5174 instead of 5173**
-- Port 5173 is occupied by a previous Vite process
-- Kill all Node processes (see above) and restart
-
-**Dashboard shows no sessions**
+**Dashboard shows no data**
 - Run the seed: `cd backend && npm run seed`
-- Or open `http://localhost:5173/demo` and click around to generate real events
-- Check browser console for CORS errors — make sure `CORS_ORIGIN` in `backend/.env` matches the frontend URL
+- Or open `http://localhost:5174` and click around to generate real events
 
 **Heatmap dropdown is empty**
-- No click events recorded yet — go to `http://localhost:5173/demo/products` and click the product cards
+- No click events recorded yet — go to `http://localhost:5174/products` and click the product cards
 - Or run the seed script
 
 **`npm run install:all` hangs or fails**
-- Install each folder separately:
-  ```bash
-  cd backend && npm install
-  cd ../frontend && npm install
-  cd .. && npm install
-  ```
+- Install each folder separately as shown in Step 4
